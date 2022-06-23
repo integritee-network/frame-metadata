@@ -20,6 +20,20 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 #![warn(missing_docs)]
 
+#[cfg(all(
+	feature = "full_derive",
+	any(
+		feature = "v13",
+		feature = "v12",
+		feature = "v11",
+		feature = "v10",
+		feature = "v9",
+		feature = "v8",
+		feature = "legacy"
+	)
+))]
+compile_error!("feature \"full_derive\" cannot be enabled for metadata prior to version v14");
+
 cfg_if::cfg_if! {
 	if #[cfg(feature = "full_derive")] {
 		use codec::{Decode, Error, Input};
