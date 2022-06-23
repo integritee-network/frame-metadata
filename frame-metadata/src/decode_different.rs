@@ -18,14 +18,18 @@
 use codec::{Encode, Output};
 
 cfg_if::cfg_if! {
-	if #[cfg(feature = "std")] {
+	if #[cfg(feature = "full_derive")] {
 		use codec::{Decode, Error, Input};
+	}
+}
+
+cfg_if::cfg_if! {
+	if #[cfg(feature = "std")] {
 		/// On `std` the `StringBuf` used by [`DecodeDifferent`] is just a `String`.
 		pub type StringBuf = String;
 	} else {
 		extern crate alloc;
 		use alloc::vec::Vec;
-
 		/// On `no_std` we do not support `Decode` and thus `StringBuf` is just `&'static str`.
 		/// So, if someone tries to decode this stuff on `no_std`, they will get a compilation error.
 		pub type StringBuf = &'static str;
@@ -68,7 +72,7 @@ where
 {
 }
 
-#[cfg(feature = "std")]
+#[cfg(feature = "full_derive")]
 impl<B, O> Decode for DecodeDifferent<B, O>
 where
 	B: 'static,
@@ -109,7 +113,7 @@ where
 	}
 }
 
-#[cfg(feature = "std")]
+#[cfg(feature = "full_derive")]
 impl<B, O> serde::Serialize for DecodeDifferent<B, O>
 where
 	B: serde::Serialize + 'static,
@@ -158,7 +162,7 @@ impl<E: Encode + core::fmt::Debug> core::fmt::Debug for FnEncode<E> {
 	}
 }
 
-#[cfg(feature = "std")]
+#[cfg(feature = "full_derive")]
 impl<E: Encode + serde::Serialize> serde::Serialize for FnEncode<E> {
 	fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
 	where
