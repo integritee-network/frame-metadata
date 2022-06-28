@@ -15,8 +15,8 @@ targets = ["x86_64-unknown-linux-gnu"]
 [dependencies]
 codec = { package = "parity-scale-codec", version = "3.0.0", default-features = false, features = ["derive"] }
 cfg-if = "1.0.0"
-scale-info = { version = "2.0.0", default-features = false, optional = true, features = ["derive"] }
-serde = { version = "1.0.101", optional = true, features = ["derive"] }
+scale-info = { version = "2.0.0", default-features = false, optional = true, features = ["derive", "decode"] }
+serde = { version = "1.0.101", default-features = false, features = ["alloc", "derive"] }
 
 [features]
 default = ["std", "v14"]
@@ -28,10 +28,16 @@ v12 = []
 v13 = []
 legacy = ["v13", "v12", "v11", "v10", "v9", "v8"]
 v14 = ["scale-info"]
+
+scale_info = [
+	"scale-info/serde",
+	"scale-info/decode"
+]
+
 std = [
 	"codec/std",
 	"scale-info/std",
 	"scale-info/serde",
 	"scale-info/decode",
-	"serde",
+	"serde/std",
 ]
