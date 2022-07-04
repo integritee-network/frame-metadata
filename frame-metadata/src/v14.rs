@@ -16,7 +16,7 @@
 // limitations under the License.
 
 cfg_if::cfg_if! {
-	if #[cfg(any(feature = "full_derive",feature = "std"))] {
+	if #[cfg(feature = "full_derive")] {
 		use codec::Decode;
 		use serde::Serialize;
 	}
@@ -44,10 +44,7 @@ impl From<RuntimeMetadataLastVersion> for super::RuntimeMetadataPrefixed {
 
 /// The metadata of a runtime.
 #[derive(Clone, PartialEq, Eq, Encode)]
-#[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
-	derive(Decode, Serialize, Debug)
-)]
+#[cfg_attr(feature = "full_derive", derive(Decode, Serialize, Debug))]
 pub struct RuntimeMetadataV14 {
 	/// Type registry containing all types used in the metadata.
 	pub types: PortableRegistry,
@@ -81,12 +78,9 @@ impl RuntimeMetadataV14 {
 
 /// Metadata of the extrinsic used by the runtime.
 #[derive(Clone, PartialEq, Eq, Encode)]
+#[cfg_attr(feature = "full_derive", derive(Decode, Serialize, Debug))]
 #[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
-	derive(Decode, Serialize, Debug)
-)]
-#[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
+	feature = "full_derive",
 	serde(bound(serialize = "T::Type: Serialize, T::String: Serialize"))
 )]
 pub struct ExtrinsicMetadata<T: Form = MetaForm> {
@@ -112,12 +106,9 @@ impl IntoPortable for ExtrinsicMetadata {
 
 /// Metadata of an extrinsic's signed extension.
 #[derive(Clone, PartialEq, Eq, Encode)]
+#[cfg_attr(feature = "full_derive", derive(Decode, Serialize, Debug))]
 #[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
-	derive(Decode, Serialize, Debug)
-)]
-#[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
+	feature = "full_derive",
 	serde(bound(serialize = "T::Type: Serialize, T::String: Serialize"))
 )]
 pub struct SignedExtensionMetadata<T: Form = MetaForm> {
@@ -143,12 +134,9 @@ impl IntoPortable for SignedExtensionMetadata {
 
 /// All metadata about an runtime pallet.
 #[derive(Clone, PartialEq, Eq, Encode)]
+#[cfg_attr(feature = "full_derive", derive(Decode, Serialize, Debug))]
 #[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
-	derive(Decode, Serialize, Debug)
-)]
-#[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
+	feature = "full_derive",
 	serde(bound(serialize = "T::Type: Serialize, T::String: Serialize"))
 )]
 pub struct PalletMetadata<T: Form = MetaForm> {
@@ -187,12 +175,9 @@ impl IntoPortable for PalletMetadata {
 
 /// All metadata of the pallet's storage.
 #[derive(Clone, PartialEq, Eq, Encode)]
+#[cfg_attr(feature = "full_derive", derive(Decode, Serialize, Debug))]
 #[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
-	derive(Decode, Serialize, Debug)
-)]
-#[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
+	feature = "full_derive",
 	serde(bound(serialize = "T::Type: Serialize, T::String: Serialize"))
 )]
 pub struct PalletStorageMetadata<T: Form = MetaForm> {
@@ -215,12 +200,9 @@ impl IntoPortable for PalletStorageMetadata {
 
 /// Metadata about one storage entry.
 #[derive(Clone, PartialEq, Eq, Encode)]
+#[cfg_attr(feature = "full_derive", derive(Decode, Serialize, Debug))]
 #[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
-	derive(Decode, Serialize, Debug)
-)]
-#[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
+	feature = "full_derive",
 	serde(bound(serialize = "T::Type: Serialize, T::String: Serialize"))
 )]
 pub struct StorageEntryMetadata<T: Form = MetaForm> {
@@ -256,10 +238,7 @@ impl IntoPortable for StorageEntryMetadata {
 /// `Optional` means you should expect an `Option<T>`, with `None` returned if the key is not present.
 /// `Default` means you should expect a `T` with the default value of default if the key is not present.
 #[derive(Clone, PartialEq, Eq, Encode)]
-#[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
-	derive(Decode, Serialize, Debug)
-)]
+#[cfg_attr(feature = "full_derive", derive(Decode, Serialize, Debug))]
 pub enum StorageEntryModifier {
 	/// The storage entry returns an `Option<T>`, with `None` if the key is not present.
 	Optional,
@@ -269,10 +248,7 @@ pub enum StorageEntryModifier {
 
 /// Hasher used by storage maps
 #[derive(Clone, PartialEq, Eq, Encode)]
-#[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
-	derive(Decode, Serialize, Debug)
-)]
+#[cfg_attr(feature = "full_derive", derive(Decode, Serialize, Debug))]
 pub enum StorageHasher {
 	/// 128-bit Blake2 hash.
 	Blake2_128,
@@ -292,12 +268,9 @@ pub enum StorageHasher {
 
 /// A type of storage value.
 #[derive(Clone, PartialEq, Eq, Encode)]
+#[cfg_attr(feature = "full_derive", derive(Decode, Serialize, Debug))]
 #[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
-	derive(Decode, Serialize, Debug)
-)]
-#[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
+	feature = "full_derive",
 	serde(bound(serialize = "T::Type: Serialize, T::String: Serialize"))
 )]
 pub enum StorageEntryType<T: Form = MetaForm> {
@@ -335,12 +308,9 @@ impl IntoPortable for StorageEntryType {
 
 /// Metadata for all calls in a pallet
 #[derive(Clone, PartialEq, Eq, Encode)]
+#[cfg_attr(feature = "full_derive", derive(Decode, Serialize, Debug))]
 #[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
-	derive(Decode, Serialize, Debug)
-)]
-#[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
+	feature = "full_derive",
 	serde(bound(serialize = "T::Type: Serialize, T::String: Serialize"))
 )]
 pub struct PalletCallMetadata<T: Form = MetaForm> {
@@ -366,10 +336,7 @@ impl From<MetaType> for PalletCallMetadata {
 
 /// Metadata about the pallet Event type.
 #[derive(Clone, PartialEq, Eq, Encode)]
-#[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
-	derive(Decode, Serialize, Debug)
-)]
+#[cfg_attr(feature = "full_derive", derive(Decode, Serialize, Debug))]
 pub struct PalletEventMetadata<T: Form = MetaForm> {
 	/// The Event type.
 	pub ty: T::Type,
@@ -393,12 +360,9 @@ impl From<MetaType> for PalletEventMetadata {
 
 /// Metadata about one pallet constant.
 #[derive(Clone, PartialEq, Eq, Encode)]
+#[cfg_attr(feature = "full_derive", derive(Decode, Serialize, Debug))]
 #[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
-	derive(Decode, Serialize, Debug)
-)]
-#[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
+	feature = "full_derive",
 	serde(bound(serialize = "T::Type: Serialize, T::String: Serialize"))
 )]
 pub struct PalletConstantMetadata<T: Form = MetaForm> {
@@ -427,12 +391,9 @@ impl IntoPortable for PalletConstantMetadata {
 
 /// Metadata about a pallet error.
 #[derive(Clone, PartialEq, Eq, Encode)]
+#[cfg_attr(feature = "full_derive", derive(Decode, Serialize, Debug))]
 #[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
-	derive(Decode, Serialize, Debug)
-)]
-#[cfg_attr(
-	any(feature = "full_derive", feature = "std"),
+	feature = "full_derive",
 	serde(bound(serialize = "T::Type: Serialize"))
 )]
 pub struct PalletErrorMetadata<T: Form = MetaForm> {
